@@ -37,5 +37,15 @@ public class SignInTest  {
 
     }
 
+    @Test
+    public void newTest(){
+
+
+//        SignInPage signInPage = new SignInPage();
+//        signInPage.SignInCredentials();
+//        Driver.getDriver().quit();
+
+    }
+
 
 }
