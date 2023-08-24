@@ -3,9 +3,9 @@ package stepDefinitions;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
+import io.restassured.RestAssured;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
-import pages.SignUpPage;
 import utils.ConfigReader;
 import utils.DBUtils;
 import utils.Driver;
@@ -16,7 +16,7 @@ public class Hooks {
 
 
 
-    @Before(order = 1)  // before each scenario
+    @Before("not (@db_only or @api_only)")  // before each scenario
     public void setupScenario(){
         Driver.getDriver().manage().window().maximize();
         Driver.getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
@@ -26,13 +26,22 @@ public class Hooks {
 
     @Before("@DB")
     public void setupScenarioForDB(){
-        SignUpPage signUpPage = new SignUpPage();
-        signUpPage.getSign_up_button().click();
         DBUtils.createConnection();
+
     }
 
+    @Before("@API")
+    public void setupScenarioForAPI(){
+        RestAssured.baseURI = ConfigReader.getProperty("api.base.uri");
 
-    @After () // after each scenario
+    }
+
+//    @Before(order = 2)  // before each scenario
+//    public void setupScenario2(){
+//        System.out.println("Second Before Hook");
+//    }
+
+    @After ("not (@db_only or @api_only)") // after each scenario
     public void tearDownScenario(Scenario scenario){
         if(scenario.isFailed()){
             byte[] screenshotFile = ((TakesScreenshot) Driver.getDriver()).getScreenshotAs(OutputType.BYTES);
@@ -41,10 +50,35 @@ public class Hooks {
 
         Driver.quitDriver();
     }
-    @After("@DB")
+
+    @After ("@DB") // after each scenario
     public void tearDownScenario2(){
-        DBUtils.close();
+       DBUtils.close();
+
     }
+
+
+//    @BeforeAll
+//    public static void beforeAllScenarios(){
+//        System.out.println("Before all sceanrios");
+//        // establish db connection
+//    }
+//
+//    @AfterAll
+//    public static void afterAllScenarios(){
+//        System.out.println("After all sceanrios");
+//        // close db connection
+//    }
+
+//    @BeforeStep
+//    public void beforeEachStep(){
+//        System.out.println("Before step");
+//    }
+//
+//    @AfterStep
+//    public void afterEachStep(){
+//        System.out.println("After step");
+//    }
 
 
 }

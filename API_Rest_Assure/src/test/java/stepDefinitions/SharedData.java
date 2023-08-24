@@ -1,10 +1,14 @@
 package stepDefinitions;
 
 
+import io.restassured.response.Response;
+import io.restassured.specification.RequestSpecification;
 import lombok.Data;
 
 import java.time.LocalDateTime;
 import java.util.List;
+
+import static io.restassured.RestAssured.given;
 
 @Data
 public class SharedData {
@@ -34,6 +38,10 @@ public class SharedData {
     private String fieldName;
    private Integer idNum;
    private String negValue;
+
+
+    private RequestSpecification requestSpecification = given();
+    private Response response;
 
 
 }
