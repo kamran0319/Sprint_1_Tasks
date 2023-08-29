@@ -3,31 +3,34 @@ package stepDefinitions.api;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import org.checkerframework.checker.index.qual.LessThan;
 import stepDefinitions.SharedData;
 import utils.ConfigReader;
 
 import java.util.List;
 
 import static org.hamcrest.Matchers.*;
-import static org.hamcrest.Matchers.equalTo;
 
 public class GetUsersStepDefs {
 
-
     SharedData sharedData;
 
-    public GetUsersStepDefs(SharedData sharedData) {this.sharedData = sharedData;}
+    public GetUsersStepDefs(SharedData sharedData) {
+        this.sharedData = sharedData;
+    }
+
 
     @Given("the request is authenticated with a valid API key")
     public void the_request_is_authenticated_with_a_valid_api_key() {
-sharedData.getRequestSpecification().queryParam("api_key", ConfigReader.getProperty("api.key.duotify"));
+        sharedData.getRequestSpecification().
+                                queryParam("api_key", ConfigReader.getProperty("api.key.duotify"));
+
+
     }
     @Given("the request {string} header is set to {string}")
-    public void the_request_header_is_set_to(String key, String value) {
-      sharedData.getRequestSpecification().header(key,value);
-    }
+    public void the_header_is_set_to(String key, String value) {
+        sharedData.getRequestSpecification().header(key, value);
 
+    }
     @When("I send a {string} request to the endpoint {string}")
     public void i_send_a_request_to_the_endpoint(String method, String endpoint) {
         switch (method) {
@@ -41,6 +44,7 @@ sharedData.getRequestSpecification().queryParam("api_key", ConfigReader.getPrope
                     sharedData.setResponse(sharedData.getRequestSpecification().when().log().all().delete(endpoint));
             default -> throw new IllegalArgumentException(method + ": This request method is invalid.");
         }
+
     }
     @Then("the response log should be displayed")
     public void the_response_log_should_be_displayed() {
@@ -48,7 +52,7 @@ sharedData.getRequestSpecification().queryParam("api_key", ConfigReader.getPrope
     }
     @Then("the response status code should be {int}")
     public void the_response_status_code_should_be(Integer statusCode) {
-       sharedData.getResponse().then().statusCode(statusCode);
+        sharedData.getResponse().then().statusCode(statusCode);
     }
     @Then("the response {string} header should be {string}")
     public void the_response_header_should_be(String key, String value) {
@@ -56,7 +60,7 @@ sharedData.getRequestSpecification().queryParam("api_key", ConfigReader.getPrope
     }
     @Then("the response time should be less than {long} ms")
     public void the_response_time_should_be_less_than_ms(Long ms) {
-      sharedData.getResponse().then().time(lessThan(ms));
+         sharedData.getResponse().then().time(lessThan(ms));
     }
     @Then("the users amount should be {int}")
     public void the_users_amount_should_be(int amount) {
@@ -93,6 +97,7 @@ sharedData.getRequestSpecification().queryParam("api_key", ConfigReader.getPrope
         sharedData.getRequestSpecification().
                 queryParam("api_key", "invalidKey");
     }
+
 
 
 }

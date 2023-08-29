@@ -7,6 +7,7 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 import static io.restassured.RestAssured.given;
 
@@ -42,6 +43,13 @@ public class SharedData {
 
     private RequestSpecification requestSpecification = given();
     private Response response;
+
+    private String JWTToken;
+    private Integer userIdFromPostRequest;
+
+    private List<Map<String, Object>> queryResultListOfMaps;
+
+
 
 
 }

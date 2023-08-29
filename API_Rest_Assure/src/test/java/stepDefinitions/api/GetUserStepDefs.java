@@ -1,7 +1,10 @@
 package stepDefinitions.api;
 
 import io.cucumber.java.en.And;
+import io.cucumber.java.en.Given;
 import stepDefinitions.SharedData;
+
+import static io.restassured.RestAssured.given;
 
 public class GetUserStepDefs {
 
@@ -15,5 +18,10 @@ public class GetUserStepDefs {
     public void theRequestQueryParameterIsSetTo(String key, String value) {
 
         sharedData.getRequestSpecification().queryParam(key, value);
+    }
+    @Given("the request specification is reset")
+    public void theRequestSpecificationIsReset() {
+
+        sharedData.setRequestSpecification(given());
     }
 }

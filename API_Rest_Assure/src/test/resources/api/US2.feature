@@ -45,7 +45,7 @@ Feature: Demo
     Then The response body should have "message" field with value "User not found."
 
   @API
-  Scenario:US2.Api endpoint
+  Scenario:US2.Api endpoint  user's information in JSON format with the following properties
     Given The request is authenticated with a valid API key
     And The request "Content-type" header is set to "application/json"
     And The request "id" query parameter is set to "45"
